@@ -30,9 +30,12 @@ def check_repo():
             commit = git.commit(project.repo_branch or 'master')
 
             if project.current_commit != commit.hexsha:
-                project.previous_commit = project.current_commit
-                project.current_commit = commit.hexsha
-                project.onRepoUpdated(git)
+                try:
+                    project.onRepoUpdated(git)
+                    project.previous_commit = project.current_commit
+                    project.current_commit = commit.hexsha
+                except:
+                    pass
 
 
 signal.signal(signal.SIGINT, signal_handler)
