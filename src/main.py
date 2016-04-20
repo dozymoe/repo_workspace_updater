@@ -18,7 +18,6 @@ log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
 def signal_handler(signum, frame):
-    log.info('CLOSING!!!!!!')
     global running
     running = False
 
@@ -55,3 +54,6 @@ while running:
     else:
         trigger -= 1
     sleep(1)
+
+log.info('CLOSING!!!!!!')
+    log.info('CLOSING!!!!!!')
