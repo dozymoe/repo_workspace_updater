@@ -1,15 +1,21 @@
 #!/usr/bin/env python
 
+import logging
 import os
 import signal
 
 from git import Repo
+from time import sleep
 
 from projects import PROJECTS
 
 repos = {}
 running = True
 interval = 60 # seconds
+
+logging.basicConfig()
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG)
 
 def signal_handler(signum, frame):
     log.info('CLOSING!!!!!!')
