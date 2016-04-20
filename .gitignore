@@ -1,0 +1,14 @@
+/.virtualenv/
+/src/projects/
+
+
+# python
+
+/python_modules
+*.pyc
+
+
+# vim
+
+*.swo
+*.swp
