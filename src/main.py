@@ -56,4 +56,3 @@ while running:
     sleep(1)
 
 log.info('CLOSING!!!!!!')
-    log.info('CLOSING!!!!!!')
