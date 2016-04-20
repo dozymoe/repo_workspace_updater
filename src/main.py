@@ -29,6 +29,7 @@ def check_repo():
             commit = git.commit(project.repo_branch or 'master')
 
             if project.current_commit != commit.hexsha:
+                log.debug('%s: %s - %s', repo_path, project.current_commit, commit.hexsha)
                 try:
                     project.onRepoUpdated(git)
                     project.previous_commit = project.current_commit
