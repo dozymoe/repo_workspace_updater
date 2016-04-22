@@ -1,28 +1,25 @@
 #!/usr/bin/env python
 
+import dbm.gnu
 import logging
 import os
-import signal
 
 from git import Repo
-from time import sleep
 
-from projects import PROJECTS
+from projects import PROJECT_CLASSES
 
 repos = {}
-running = True
-interval = 60 # seconds
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 logging.basicConfig()
 log = logging.getLogger(__name__)
 log.setLevel(logging.DEBUG)
 
-def signal_handler(signum, frame):
-    global running
-    running = False
-
 
 def check_repo():
+    datastore_modified = False
+
     for repo_path in repos:
         git = Repo(repo_path)
         for project in repos[repo_path]:
@@ -31,29 +28,23 @@ def check_repo():
             if project.current_commit != commit.hexsha:
                 log.debug('%s: %s - %s', repo_path, project.current_commit, commit.hexsha)
                 try:
-                    project.onRepoUpdated(git)
-                    project.previous_commit = project.current_commit
-                    project.current_commit = commit.hexsha
+                    project.on_repo_updated(git)
+                    project.set_current_commit(commit.hexsha)
+                    datastore_modified = True
                 except Exception as e:
                     log.error(str(e))
 
+    if datastore_modified:
+        datastore.sync()
 
-signal.signal(signal.SIGINT, signal_handler)
-signal.signal(signal.SIGTERM, signal_handler)
 
-for project in PROJECTS:
-    mirror_path = os.path.expanduser(project.repo_mirror_path)
-    if not mirror_path in repos:
-        repos[mirror_path] = []
-    repos[mirror_path].append(project)
+with dbm.gnu.open(os.path.join(BASE_DIR, 'datastore.db'), 'cf') as datastore:
+    for project_class in PROJECT_CLASSES:
+        project_obj = project_class(datastore)
 
-trigger = 0
-while running:
-    if trigger == 0:
-        check_repo()
-        trigger = interval
-    else:
-        trigger -= 1
-    sleep(1)
+        mirror_path = os.path.expanduser(project_obj.repo_mirror_path)
+        if not mirror_path in repos:
+            repos[mirror_path] = []
+        repos[mirror_path].append(project_obj)
 
-log.info('CLOSING!!!!!!')
+    check_repo()

@@ -1,6 +1,8 @@
 /.virtualenv/
 /src/projects/
 
+/datastore.db
+
 
 # python
 
