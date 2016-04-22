@@ -34,8 +34,8 @@ def check_repo():
                     project.onRepoUpdated(git)
                     project.previous_commit = project.current_commit
                     project.current_commit = commit.hexsha
-                except:
-                    pass
+                except Exception as e:
+                    log.error(str(e))
 
 
 signal.signal(signal.SIGINT, signal_handler)
