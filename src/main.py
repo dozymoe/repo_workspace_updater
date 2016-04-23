@@ -10,7 +10,7 @@ from projects import PROJECT_CLASSES
 
 repos = {}
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 logging.basicConfig()
 log = logging.getLogger(__name__)
@@ -26,7 +26,9 @@ def check_repo():
             commit = git.commit(project.repo_branch or 'master')
 
             if project.current_commit != commit.hexsha:
-                log.debug('%s: %s - %s', repo_path, project.current_commit, commit.hexsha)
+                log.debug('%s: "%s" - "%s"', repo_path, project.current_commit,
+                        commit.hexsha)
+
                 try:
                     project.on_repo_updated(git)
                     project.set_current_commit(commit.hexsha)
