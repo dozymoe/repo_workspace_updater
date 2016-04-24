@@ -18,3 +18,6 @@ Sample cron script:
     source .virtualenv/bin/activate
     cd src
     python main.py
+
+You need to create `projects` directory (which could be a git repository) next
+to `src/projects.example`.
