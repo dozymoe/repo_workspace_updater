@@ -3,7 +3,7 @@ class BaseRepoProject(object):
     name = 'base_repo_class'
 
     repo_mirror_path = None
-    repo_branch = 'master'
+    repo_branch = None
     project_path = None
 
     datastore = None

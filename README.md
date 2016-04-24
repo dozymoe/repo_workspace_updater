@@ -21,3 +21,7 @@ Sample cron script:
 
 You need to create `projects` directory (which could be a git repository) next
 to `src/projects.example`.
+
+By default, project's `repo_branch` is set to `None`, meaning any new commit
+will trigger update hooks, set new project `repo_branch` to `'master'` if you
+want to monitor only the master branch.

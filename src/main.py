@@ -23,7 +23,10 @@ def check_repo():
     for repo_path in repos:
         git = Repo(repo_path)
         for project in repos[repo_path]:
-            commit = git.commit(project.repo_branch or 'master')
+            if project.repo_branch:
+                commit = git.commit(project.repo_branch)
+            else:
+                commit = next(git.iter_commits())
 
             if project.current_commit != commit.hexsha:
                 log.debug('%s: "%s" - "%s"', repo_path, project.current_commit,
