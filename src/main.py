@@ -3,8 +3,9 @@
 import dbm.gnu
 import logging
 import os
+import sys
 
-from git import Repo
+from git import BadName, Repo
 
 from projects import PROJECT_CLASSES
 
@@ -12,9 +13,8 @@ repos = {}
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
-logging.basicConfig()
+logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
 log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG)
 
 
 def check_repo():
@@ -23,10 +23,13 @@ def check_repo():
     for repo_path in repos:
         git = Repo(repo_path)
         for project in repos[repo_path]:
-            if project.repo_branch:
-                commit = git.commit(project.repo_branch)
-            else:
-                commit = next(git.iter_commits())
+            try:
+                if project.repo_branch:
+                    commit = git.commit(project.repo_branch)
+                else:
+                    commit = next(git.iter_commits())
+            except BadName:
+                continue
 
             if project.current_commit != commit.hexsha:
                 log.debug('%s: "%s" - "%s"', repo_path, project.current_commit,
