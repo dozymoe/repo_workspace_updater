@@ -47,7 +47,7 @@ class ApplicationBase(object):
                     continue
 
                 if project.current_commit != commit.hexsha:
-                    log.debug('%s: "%s" - "%s"', repo_path,
+                    self.logger.debug('%s: "%s" - "%s"', repo_path,
                             project.current_commit, commit.hexsha)
 
                     try:
@@ -55,7 +55,7 @@ class ApplicationBase(object):
                         project.set_current_commit(commit.hexsha)
                         datastore_modified = True
                     except Exception as e:
-                        log.error(str(e))
+                        self.logger.error(str(e))
 
         if datastore_modified:
             self.datastore.sync()
