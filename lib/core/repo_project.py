@@ -49,3 +49,7 @@ class RepoProjectBase(object):
 
     def on_repo_updated(self, git_repo):
         raise NotImplemented()
+
+
+    def custom_trigger(self):
+        return False

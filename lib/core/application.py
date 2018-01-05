@@ -46,10 +46,17 @@ class ApplicationBase(object):
                 except BadName:
                     continue
 
+                triggered = False
+
                 if project.current_commit != commit.hexsha:
+                    triggered = True
                     self.logger.debug('%s: "%s" - "%s"', repo_path,
                             project.current_commit, commit.hexsha)
 
+                elif project.custom_trigger():
+                    triggered = True
+
+                if triggered:
                     try:
                         project.on_repo_updated(git)
                         project.set_current_commit(commit.hexsha)
