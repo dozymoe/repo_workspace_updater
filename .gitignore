@@ -1,11 +1,11 @@
-/.virtualenv/
-/src/projects/
-
+/etc/runner.json
 /datastore.db
 
 
 # python
 
+/.virtualenv/
+/requirements.txt
 /python_modules
 *.pyc
 

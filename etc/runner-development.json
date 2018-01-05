@@ -1,0 +1,17 @@
+{
+    "modules": [
+        "lib.fireh_runner.modules.setup",
+        "lib.fireh_runner.modules.pip",
+
+        "etc.runner_modules.example"
+    ],
+    "setup_modules": [
+        "lib.fireh_runner.setup_modules.python"
+    ],
+
+    "python_version": "3.6",
+    "virtualenv_dir": ".virtualenv",
+
+    "default_project": "example",
+    "default_variant": "development"
+}

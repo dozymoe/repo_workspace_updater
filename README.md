@@ -10,17 +10,9 @@ was git cloned from repositories, as opposed to using git hooks.
 When the repository were updated we expect the the workspace to also be updated,
 usually used in automated servers.
 
-Sample cron script:
+Sample crontab entry:
 
-    #!/bin/bash
-
-    cd ~/Workspace/repo_workspace_updater
-    source .virtualenv/bin/activate
-    cd src
-    python main.py
-
-You need to create `projects` directory (which could be a git repository) next
-to `src/projects.example`.
+    */15  *  *  *  * /home/USER/Workspace/repo_workspace_updater/run example
 
 By default, project's `repo_branch` is set to `None`, meaning any new commit
 will trigger update hooks, set new project `repo_branch` to `'master'` if you

@@ -1,12 +1,6 @@
-import logging
+from lib.core import RepoProjectBase
 
-from project import BaseRepoProject
-
-log = logging.getLogger(__name__)
-
-class RepoWorkspaceUpdaterMirror(BaseRepoProject):
-
-    name = 'repo_workspace_updater_mirror'
+class RepoWorkspaceUpdaterMirror(RepoProjectBase):
 
     repo_mirror_path = '~/repo/repo_workspace_updater.git'
 
