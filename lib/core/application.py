@@ -40,9 +40,13 @@ class ApplicationBase(object):
             for project in projects:
                 try:
                     if project.repo_branch:
-                        commit = git.commit(project.repo_branch)
-                    else:
-                        commit = next(git.iter_commits())
+                        branch = git.heads[project.repo_branch]
+                        if git.head.commit != branch.commit:
+                            branch.checkout()
+                        if git.head.commit != branch.tracking_branch().commit:
+                            git.remote().pull()
+
+                    commit = git.head.commit
                 except BadName:
                     continue
 
